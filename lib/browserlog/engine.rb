@@ -2,6 +2,10 @@ module Browserlog
   class Engine < ::Rails::Engine
     isolate_namespace Browserlog
 
+    config.after_initialize do
+      require "browserlog/application_controller"
+    end
+
     config.generators do |g|
       g.test_framework :rspec, fixture: false
       g.assets false

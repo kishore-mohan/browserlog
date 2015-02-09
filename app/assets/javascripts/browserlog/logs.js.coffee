@@ -58,12 +58,13 @@ class LogView
 class LogFeed
   POLL_PERIOD: 1500
 
-  constructor: (listener) ->
+  constructor: (listener, serverName) ->
     @listener = listener
     @currentLine = -1
+    @serverName =  serverName
 
   getLines: =>
-    $.get(window.location.href + '/changes.json', {currentLine: @currentLine})
+    $.get(window.location.href + '/changes.json', {currentLine: @currentLine, serverName: @serverName})
     .done(@getLinesSuccess)
     .fail(@getLinesError)
     .always(@getLinesComplete)
@@ -81,12 +82,13 @@ class LogFeed
 
   start: ->
     setTimeout @getLines, 0
-
+ 
   reschedule: ->
     setTimeout @getLines, @POLL_PERIOD
 
 $ ->
-  logfeed = new LogFeed(new LogView)
+  serverName = $(".searchResults").data("query")
+  logfeed = new LogFeed(new LogView, serverName)
   logfeed.start()
 
   new ThemeSwitcherView

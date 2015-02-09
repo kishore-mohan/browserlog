@@ -3,6 +3,7 @@ module Browserlog
     def read(options = {})
       offset = options[:offset] || -1
       limit = options[:limit] || 25
+      @server_name = options[:serverName]
       amount = [limit, remaining_lines(offset)].min
 
       if offset == -1
@@ -21,7 +22,7 @@ module Browserlog
     end
 
     def log_path
-      Rails.root.join("log/#{Rails.env}.log")
+      Rails.root.join("log/#{@server_name}.log")
     end
 
     def num_lines
