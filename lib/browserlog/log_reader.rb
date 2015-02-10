@@ -2,7 +2,7 @@ module Browserlog
   class LogReader
     def read(options = {})
       offset = options[:offset] || -1
-      limit = options[:limit] || 25
+      limit = options[:limit] || 500
       @server_name = options[:serverName]
       amount = [limit, remaining_lines(offset)].min
 
